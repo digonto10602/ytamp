@@ -77,10 +77,13 @@ class Searcher:
                "--no-progress", "--socket-timeout", "20"]
         cmd += self.config.ytdlp_auth_args()
 
-        if looks_like_url(query):
+        is_url = looks_like_url(query)
+        if is_url:
             if not _YT_HOST_RE.search(query):
                 return [], "only YouTube links are supported"
-            cmd += ["--playlist-end", str(max(limit, 100)), query]
+            # No --playlist-end: a link means "load all of it". Enumerating a
+            # few thousand flat entries takes a while, hence the longer timeout.
+            cmd.append(query)
         else:
             cmd.append(f"ytsearch{limit}:{query}")
 
@@ -91,7 +94,7 @@ class Searcher:
         with self._lock:
             self._proc = proc
         try:
-            out, err = proc.communicate(timeout=90)
+            out, err = proc.communicate(timeout=600 if is_url else 90)
         except subprocess.TimeoutExpired:
             proc.kill()
             return [], "search timed out"
@@ -125,7 +128,7 @@ class Searcher:
 
         if not tracks:
             return [], self._explain(err) or "no results"
-        return tracks[:limit] if not looks_like_url(query) else tracks, None
+        return tracks if is_url else tracks[:limit], None
 
     @staticmethod
     def _explain(stderr: str) -> str | None:

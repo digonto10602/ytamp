@@ -28,6 +28,7 @@ HELP_LINES = [
     ("PLAYBACK", ""),
     ("Enter", "play the selected track now"),
     ("a", "add the selected result to the queue"),
+    ("A", "add every result to the queue"),
     ("Space", "play / pause"),
     ("n p", "next / previous track"),
     ("← →", "seek 5 seconds"),
@@ -716,6 +717,8 @@ class App:
             self._activate()
         elif key == ord("a"):
             self._add_selected()
+        elif key == ord("A"):
+            self._add_all_results()
         elif key == ord(" "):
             self.player.toggle_pause()
         elif key == ord("n"):
@@ -781,6 +784,13 @@ class App:
         self.playlist.add(track)
         self.notify(f"Queued: {track.title}", 3)
         self.move_cursor(1)
+
+    def _add_all_results(self) -> None:
+        if not self.results:
+            self.notify("No results to queue", 2)
+            return
+        added = self.playlist.extend(self.results)
+        self.notify(f"Queued {added} track{'s' if added != 1 else ''}", 3)
 
     def _remove_selected(self) -> None:
         if self.pane != PANE_QUEUE or not self.playlist.tracks:

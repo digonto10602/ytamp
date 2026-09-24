@@ -53,8 +53,8 @@ track to your browser.
 
 - **Search YouTube from the terminal.** Type a query, get titles, channels,
   view counts and durations in about two seconds.
-- **Paste links.** A video URL plays it; a playlist or channel URL loads the
-  whole thing into the queue.
+- **Paste links.** A video URL plays it; a playlist or channel URL loads every
+  entry into Results, and `A` sends the lot to the queue.
 - **A real queue.** Add, reorder, remove, shuffle, repeat one or all. It saves
   on exit and comes back next time.
 - **A genuine spectrum analyser.** Log-spaced FFT bands with falling peak
@@ -143,7 +143,7 @@ Press `/` and type. Plain words become a YouTube search. Anything starting with
 | `aphex twin windowlicker` | search, newest results first |
 | `https://www.youtube.com/watch?v=...` | that single video |
 | `https://youtu.be/...` | that single video |
-| `https://www.youtube.com/playlist?list=...` | the whole playlist into Results |
+| `https://www.youtube.com/playlist?list=...` | every track in the playlist into Results |
 | a channel or mix URL | as many entries as yt-dlp will list |
 
 `Esc` cancels the prompt, `Ctrl-U` clears the line, `Ctrl-W` deletes a word.
@@ -189,6 +189,7 @@ Press `?` in the app for this list.
 |---|---|
 | `Enter` | play the selected track |
 | `a` | add the selected result to the queue |
+| `A` | add every result to the queue |
 | `Space` | play / pause |
 | `n` `p` | next / previous track |
 | `←` `→` | seek 5 seconds |
@@ -334,7 +335,7 @@ remembered, so `L` → *Anonymous* turns it back off.
 | `player.format` | `bestaudio/best` | yt-dlp format selector |
 | `player.seek_step` | `5` | seconds for `←` `→` |
 | `player.seek_step_big` | `30` | seconds for `Shift`+`←` `→` |
-| `search.results` | `25` | results per search |
+| `search.results` | `25` | results per text search (links are never capped) |
 | `ui.palette` | `gradient` | `gradient` (256 colour), `ansi` (inherit your terminal theme), `mono` |
 | `ui.vis_height` | `9` | analyser height in rows |
 | `ui.vis_mode` | `spectrum` | startup visualiser mode |
